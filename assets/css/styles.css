@@ -56,11 +56,25 @@
   --sombra-media: 0 4px 20px rgba(27, 50, 84, 0.14);
   --transicion-slow: 0.75s ease;
   --transicion: 0.25s ease;
-  --transicion-fast: 0.15s ease-in-out;
+  --transicion-btn: 0.05s ease-in-out;
 
   /* Layout */
   --ancho-max: 1100px;
   --padding-x: clamp(1.25rem, 5vw, 3rem);
+}
+
+/* ── Animaciones ─────────────────────────────────────────────── */
+
+/* 1. un desplazamiento muy sutil hacia arriba */
+@keyframes heroFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ── Reset base ─────────────────────────────────────────────── */
@@ -108,7 +122,7 @@ ol {
   padding-left: 1.25rem;
 }
 
-/* ── Línea decorativa de acento ─────────────────────────────── */
+/* ── Utilidad - Línea decorativa de acento ─────────────────────────────── */
 .linea-decorativa {
   display: block;
   height: 4px;
@@ -197,7 +211,7 @@ header nav a {
   transition:
     background var(--transicion),
     color var(--transicion),
-    scale var(--transicion-fast);
+    scale var(--transicion-btn);
 }
 
 header nav a::after {
@@ -206,8 +220,10 @@ header nav a::after {
   bottom: 9px;
   left: 0.75rem;
   right: 0.75rem;
+
   height: 2px;
   background-color: var(--secundario-sombra);
+
   border-radius: 2px;
 
   opacity: 0;
@@ -226,12 +242,12 @@ header nav a:hover {
 header nav a:active {
   background: var(--azul-suave);
   scale: 0.97;
+  transition-duration: 0.05s;
 }
 
 header nav a.current {
   background: var(--azul-claro);
   color: var(--azul-profundo);
-  text-decoration: double;
 }
 
 header nav a.current::after {
@@ -292,6 +308,8 @@ main h3 {
   content: "";
   position: absolute;
   inset: 0;
+  z-index: 0;
+
   background: linear-gradient(
     105deg,
     rgba(27, 50, 84, 0.95) 0%,
@@ -299,7 +317,6 @@ main h3 {
     rgba(27, 50, 84, 0.35) 70%,
     rgba(42, 75, 119, 0.08) 100%
   );
-  z-index: 0;
 }
 
 #hero {
@@ -318,26 +335,13 @@ main h3 {
 .hero-contenido {
   position: relative;
   z-index: 1;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
+
   max-width: 680px;
   padding: clamp(3rem, 7vw, 4.5rem) var(--padding-x);
-}
-
-/* Panel foto derecho */
-.hero-logo {
-  position: relative;
-  overflow: hidden;
-  flex: 1;
-  min-height: clamp(460px, 60vh, 620px);
-  background-color: var(--azul-opaco);
-  clip-path: polygon(12% 0, 100% 0, 100% 100%, 0% 100%);
-}
-
-/* Anula estilos de img directa; la foto la controla .hero-visual img */
-.hero-logo > img {
-  display: none;
 }
 
 #hero h1 {
@@ -349,6 +353,8 @@ main h3 {
   line-height: 1.12;
   letter-spacing: -0.02em;
   color: var(--blanco);
+
+  animation: heroFadeIn 0.6s ease-out both;
 }
 
 #hero p {
@@ -357,6 +363,9 @@ main h3 {
   font-size: clamp(0.95rem, 1.4vw, 1.05rem);
   color: rgba(255, 255, 255, 0.78);
   line-height: 1.75;
+
+  animation: heroFadeIn 0.6s ease-out both;
+  animation-delay: 0.15s;
 }
 
 #hero strong {
@@ -381,6 +390,16 @@ main h3 {
 
   border: 1px solid rgba(102, 197, 231, 0.35);
   border-radius: 2rem;
+
+  animation: heroFadeIn 0.6s ease-out both;
+  animation-delay: 0.3s;
+}
+
+#hero .hero-pills strong:nth-child(2) {
+  animation-delay: 0.45s;
+}
+#hero .hero-pills strong:nth-child(3) {
+  animation-delay: 0.6s;
 }
 
 /* CTA */
@@ -404,91 +423,49 @@ main h3 {
 
   transition:
     background var(--transicion),
-    transform var(--transicion);
+    scale var(--transicion-btn),
+    color var(--transicion);
+  animation: heroFadeIn 0.6s ease-out both;
+  animation-delay: 0.35s;
 }
 
 #hero a::after {
+  display: inline-block;
+
   content: "→";
-  font-size: 1rem;
+  font-size: 1.5rem;
+
+  transform: translateY(-2px);
+  opacity: 1;
+
+  transition:
+    transform var(--transicion),
+    opacity var(--transicion-slow);
 }
 
 #hero a:hover {
   background-color: var(--secundario-light);
-
-  transform: translateX(3px);
 }
 
-/* ══════════════════════════════════════════════════════════════
-   HERO — Fondo fotográfico con overlay (enfoque confiable)
-══════════════════════════════════════════════════════════════ */
-
-/* Badges flotantes sobre la foto, esquina inferior derecha */
-.hero-badges {
-  position: absolute;
-  z-index: 1;
-  bottom: 2.5rem;
-  right: clamp(1.5rem, 5vw, 4rem);
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  align-items: flex-end;
+#hero a:hover::after {
+  transform: translate(6px, -2px);
 }
 
-.hero-badge {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0.9rem 1.2rem;
-  background: rgba(27, 50, 84, 0.88);
-  backdrop-filter: blur(10px);
-  border-left: 3px solid var(--secundario);
-  border-radius: var(--radio-md);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
-  gap: 0.05rem;
+#hero a:active {
+  background-color: var(--secundario-sombra);
+  scale: 0.97;
+  transition-duration: 0.05s;
 }
 
-.hero-badge strong {
-  font-family: var(--fuente-display);
-  font-size: 2rem;
-  font-weight: 600;
-  line-height: 1;
-  color: var(--secundario);
+#hero a.is-leaving {
+  background-color: var(--secundario-sombra);
 }
 
-.hero-badge span {
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.72);
-}
-
-.hero-badge--acento {
-  border-left-color: var(--secundario);
-  background: rgba(102, 197, 231, 0.18);
-  align-items: center;
-  padding: 0.6rem 1rem;
-}
-
-.hero-badge--acento strong {
-  font-size: 0.85rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: var(--blanco);
-}
-
-.hero-badge--acento span {
-  color: rgba(255, 255, 255, 0.8);
-}
-
-@media (max-width: 600px) {
-  .hero-badges {
-    bottom: 1.25rem;
-    right: 1rem;
-  }
-  .hero-badge strong {
-    font-size: 1.5rem;
-  }
+#hero a.is-leaving::after {
+  transform: translate(60px, -2px);
+  color: white;
+  opacity: 0;
+  transition: transform 0.25s ease-in, opacity 0.2s ease-in;
 }
 
 /* ══════════════════════════════════════════════════════════════
