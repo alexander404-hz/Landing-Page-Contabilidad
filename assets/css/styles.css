@@ -326,7 +326,7 @@ main h3 {
   min-height: clamp(520px, 72vh, 680px);
   padding: 0;
   background-color: var(--azul-profundo);
-  background-image: url("../img/banner.webp");
+  background-image: url("../img/hero.webp");
   background-size: cover;
   background-position: 25% 42%;
   color: var(--blanco);
@@ -465,7 +465,9 @@ main h3 {
   transform: translate(60px, -2px);
   color: white;
   opacity: 0;
-  transition: transform 0.25s ease-in, opacity 0.2s ease-in;
+  transition:
+    transform 0.25s ease-in,
+    opacity 0.2s ease-in;
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -1852,8 +1854,14 @@ footer > p:last-child a {
 }
 
 .whatsapp-float:hover {
+  transform: scale(1.15);
+  box-shadow: 0 6px 28px rgba(37, 211, 102, 0.9);
+  color: #fff;
+}
+
+.whatsapp-float:active {
   transform: scale(1.1);
-  box-shadow: 0 6px 28px rgba(37, 211, 102, 0.6);
+  box-shadow: 0 6px 28px rgba(37, 211, 102, 0.2);
   color: #fff;
 }
 

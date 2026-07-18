@@ -42,7 +42,15 @@ const link = document.querySelector("#hero a");
 link?.addEventListener("click", function (e) {
   if (this.classList.contains("is-leaving")) return; // evita doble click
   e.preventDefault();
+
   const href = this.href;
   this.classList.add("is-leaving");
-  window.location.href = href;
+
+  setTimeout(() => {
+    window.open(href, "_blank", "noopener,noreferrer");
+  }, 300);
+
+  setTimeout(() => {
+    this.classList.remove("is-leaving");
+  }, 300);
 });
