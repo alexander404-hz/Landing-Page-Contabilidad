@@ -670,10 +670,14 @@ main h3 {
   border-radius: var(--radio-lg);
   box-shadow: var(--sombra-fina);
 
+  opacity: 0;
+  transform: translateY(25px) scale(0.97);
+
   transition:
     box-shadow var(--transicion),
-    transform var(--transicion),
-    border-color var(--transicion);
+    border-color var(--transicion),
+    transform var(--transicion-fade),
+    opacity var(--transicion-fade);
 }
 
 .bento-item:hover {
@@ -749,6 +753,27 @@ main h3 {
     justify-content: space-between;
     gap: 3rem;
   }
+}
+
+.bento-grid.visible .bento-item {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.bento-grid.visible .bento-item:nth-child(1) {
+  transition-delay: 0.1s;
+}
+.bento-grid.visible .bento-item:nth-child(2) {
+  transition-delay: 0.22s;
+}
+.bento-grid.visible .bento-item:nth-child(3) {
+  transition-delay: 0.34s;
+}
+.bento-grid.visible .bento-item:nth-child(4) {
+  transition-delay: 0.46s;
+}
+.bento-grid.visible .bento-item:nth-child(5) {
+  transition-delay: 0.58s;
 }
 
 .bento-header {
@@ -854,10 +879,14 @@ main h3 {
 
   border-bottom: 1px solid rgba(58, 99, 153, 0.2);
 
+  opacity: 0;
+  transform: translateY(40px);
+
   transition:
     background-color var(--transicion),
-    transform var(--transicion),
-    border-bottom-color var(--transicion);
+    border-bottom-color var(--transicion),
+    opacity var(--transicion-fade),
+    transform var(--transicion-fade);
 }
 
 /* Efecto hover muy sutil y elegante */
@@ -883,6 +912,11 @@ main h3 {
 .servicio-fila:hover .servicio-detalle ul li::before {
   transform: scaleX(1.3); /* El guion se estira ligeramente hacia la derecha */
   transform-origin: left;
+}
+
+.servicio-fila.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .servicio-titulo {
@@ -998,45 +1032,19 @@ main h3 {
 }
 
 /* ══════════════════════════════════════════════════════════════
-   PROCESO — Foto decorativa antes de los pasos
-══════════════════════════════════════════════════════════════ */
-.proceso-foto-banner {
-  width: 100%;
-  height: 200px;
-  margin: 0 0 3.5rem 0;
-  border-radius: var(--radio-lg);
-  background-image: url("https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1600&q=80");
-  background-size: cover;
-  background-position: center 40%;
-  position: relative;
-  overflow: hidden;
-  box-shadow: var(--sombra-media);
-}
-
-.proceso-foto-banner::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    90deg,
-    rgba(27, 50, 84, 0.6) 0%,
-    rgba(27, 50, 84, 0.2) 60%,
-    transparent 100%
-  );
-}
-
-/* ══════════════════════════════════════════════════════════════
    BANNER VISUAL — sección intermedia con foto de fondo
 ══════════════════════════════════════════════════════════════ */
 
 #banner-visual {
-  max-width: 100% !important;
-  padding: 0 !important;
-  min-height: 320px;
   position: relative;
   display: flex;
   align-items: center;
-  background-image: url("https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=80");
+
+  padding: 0;
+  max-width: 100%;
+  min-height: 380px;
+
+  background-image: url("../img/banner.webp");
   background-size: cover;
   background-position: center 40%;
   background-attachment: fixed;
@@ -1046,50 +1054,84 @@ main h3 {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(27, 50, 84, 0.78);
   z-index: 0;
+
+  background: rgba(27, 50, 84, 0.82);
 }
 
 .banner-visual-contenido {
   position: relative;
   z-index: 1;
-  text-align: center;
+
+  padding: 5rem var(--padding-x);
   width: 100%;
-  padding: 4rem var(--padding-x);
+
+  text-align: center;
+
+  opacity: 0;
+  transform: translateY(20px) scale(0.98);
+  transition:
+    opacity var(--transicion-fade),
+    transform var(--transicion-fade);
+}
+
+#banner-visual.visible .banner-visual-contenido {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
 .banner-visual-contenido p {
+  position: relative;
+
+  margin: 0 auto 1.5rem;
+  max-width: 850px;
+
   font-family: var(--fuente-display);
-  font-size: clamp(1.5rem, 3.5vw, 2.4rem);
+  font-size: clamp(1.6rem, 3.8vw, 2.6rem);
   font-style: italic;
   font-weight: 400;
+  line-height: 1.5;
   color: var(--blanco);
-  line-height: 1.4;
-  max-width: 800px;
-  margin: 0 auto 1rem;
 }
 
 .banner-visual-contenido p::before {
   content: "\201C";
+
+  margin-right: 0.5rem;
+
+  font-family: Georgia, serif;
+  font-size: 3rem;
+  line-height: 0;
+  vertical-align: -0.4rem;
   color: var(--secundario);
 }
+
 .banner-visual-contenido p::after {
   content: "\201D";
+
+  margin-left: 0.3rem;
+
+  font-family: Georgia, serif;
+  font-size: 3rem;
+  line-height: 0;
+  vertical-align: -0.8rem;
   color: var(--secundario);
 }
 
 .banner-visual-contenido span {
-  font-size: 0.78rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
+  display: block;
+
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.65);
 }
 
-══════════════════════════════════════════════════════════════ */
 /* ══════════════════════════════════════════════════════════════
    PROCESO — línea de tiempo horizontal tipo journey map
 ══════════════════════════════════════════════════════════════ */
+
 #proceso {
   text-align: center;
 }
@@ -1102,12 +1144,16 @@ main h3 {
 #proceso ol::before {
   content: "";
   position: absolute;
-
-  top: 2rem;
+  top: 2.3rem;
   left: calc(12.5% + 0.5rem);
   right: calc(12.5% + 0.5rem);
+
   height: 3px;
   background: linear-gradient(90deg, var(--primario), var(--secundario));
+
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 3s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 /* Línea de tiempo */
@@ -1120,37 +1166,10 @@ main h3 {
   padding: 0;
 
   list-style: none;
-  counter-reset: pasos;
 }
 
-/* Nodo circular */
-#proceso li::before {
-  position: relative;
-  z-index: 1;
-  content: counter(pasos);
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-
-  width: 4.2rem;
-  height: 4.2rem;
-  margin-bottom: 1.25rem;
-  background: var(--primario);
-
-  font-family: var(--fuente-display);
-  font-size: 1.5rem;
-  font-weight: 500;
-  color: var(--blanco);
-
-  border: 3px solid var(--blanco);
-  border-radius: 50%;
-  box-shadow: 0 0 0 2px var(--primario);
-
-  transition:
-    background var(--transicion),
-    box-shadow var(--transicion);
+#proceso.visible ol::before {
+  transform: scaleX(1);
 }
 
 #proceso li {
@@ -1163,15 +1182,115 @@ main h3 {
 
   color: var(--gris-texto);
   text-align: center;
-
-  counter-increment: pasos;
 }
 
-#proceso li:hover::before {
-  background: var(--secundario);
+#proceso li:hover .proceso-nodo {
   box-shadow:
-    0 0 0 2px var(--secundario),
-    0 4px 16px rgba(102, 197, 231, 0.3);
+    0 0 0 1px rgba(102, 197, 231, 0.25),
+    0 10px 24px -6px rgba(49, 181, 230, 0.4);
+  transform: translateY(-2px);
+}
+
+#proceso li:hover .proceso-icono svg {
+  transform: scale(1.1);
+}
+
+#proceso li:hover .proceso-numero {
+  border-color: var(--secundario);
+  box-shadow: -5px 5px 25px 2px var(--secundario);
+}
+
+/* Nodo del paso */
+.proceso-nodo {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  width: 4.6rem;
+  height: 4.6rem;
+  margin-bottom: 1.4rem;
+  background: var(--primario);
+
+  border: 3px solid var(--blanco);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 1px rgba(58, 99, 153, 0.15),
+    0 8px 20px -6px rgba(27, 50, 84, 0.45);
+
+  transition:
+    box-shadow var(--transicion),
+    transform var(--transicion);
+}
+
+.proceso-icono {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--blanco);
+}
+
+.proceso-icono svg {
+  width: 1.7rem;
+  height: 1.7rem;
+
+  transition: transform var(--transicion-slow);
+}
+
+/* Insignia con el número, superpuesta a la esquina del nodo */
+.proceso-numero {
+  position: absolute;
+  top: -0.3rem;
+  right: -0.3rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding-bottom: 0.3rem;
+  width: 1.6rem;
+  height: 1.6rem;
+  background: var(--blanco);
+
+  font-family: var(--fuente-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--primario);
+
+  border: 2px solid var(--primario);
+  border-radius: 50%;
+  box-shadow: var(--sombra-fina);
+
+  transform: scale(0);
+
+  transition:
+    box-shadow var(--transicion-slow),
+    border-color var(--transicion-slow),
+    transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+#proceso.visible .proceso-numero {
+  transform: scale(1);
+}
+
+#proceso.visible li:nth-child(1) .proceso-numero {
+  transition-delay: 0.3s;
+}
+
+#proceso.visible li:nth-child(2) .proceso-numero {
+  transition-delay: 0.6s;
+}
+
+#proceso.visible li:nth-child(3) .proceso-numero {
+  transition-delay: 0.9s;
+}
+
+#proceso.visible li:nth-child(4) .proceso-numero {
+  transition-delay: 1.2s;
 }
 
 /* CTA */
@@ -1180,54 +1299,76 @@ main h3 {
   align-items: center;
   gap: 0.6rem;
 
-  padding: 0.85rem 1.75rem;
+  padding: 0.9rem 2rem;
   background: var(--primario);
 
   font-size: 0.88rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--blanco);
 
   border-radius: var(--radio);
+  box-shadow: var(--sombra-fina);
 
   transition:
-    background var(--transicion),
+    background-color var(--transicion),
+    box-shadow var(--transicion),
     transform var(--transicion);
 }
 
 #proceso > a:hover {
   background: var(--azul-oscuro);
-  transform: translateX(3px);
+  box-shadow: var(--sombra-media);
+  transform: translateY(-2px);
 }
 
-@media (max-width: 700px) {
+#proceso > a:active {
+  background: var(--azul-light);
+  box-shadow: var(--sombra-fina);
+  transform: translateY(1px);
+}
+
+@media (max-width: 768px) {
   #proceso ol {
     grid-template-columns: 1fr;
     gap: 0;
   }
 
+  /* Apagamos la línea global que fallaba en móvil */
   #proceso ol::before {
-    top: 2.1rem;
-    left: 2.05rem;
-    bottom: 2.1rem;
-    right: auto;
-    width: 2px;
-    height: auto;
-    background: linear-gradient(180deg, var(--primario), var(--secundario));
+    display: none;
   }
 
   #proceso li {
     flex-direction: row;
     text-align: left;
     align-items: flex-start;
-    gap: 1.25rem;
-    padding: 0 0 2rem 0;
+    gap: 1.5rem;
+    padding-bottom: 2.5rem;
   }
 
-  #proceso li::before {
+  /* Creamos el "hilo" conector individual para cada nodo móvil */
+  #proceso li:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 4.6rem; /* Justo abajo del nodo */
+    left: 2.3rem; /* Centrado con el nodo de 4.6rem */
+    transform: translateX(-50%);
+    width: 3px;
+    height: calc(
+      100% - 4.6rem + 0.5rem
+    ); /* Se adapta perfectamente al alto dinámico del texto */
+    background: linear-gradient(180deg, var(--primario), var(--secundario));
+    z-index: 0;
+  }
+
+  .proceso-nodo {
     margin-bottom: 0;
-    flex-shrink: 0;
+  }
+
+  .proceso-contenido {
+    padding-top: 0.5rem; /* Alinea el texto con el centro del nodo */
   }
 }
 
