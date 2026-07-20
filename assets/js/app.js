@@ -76,55 +76,54 @@ document.addEventListener("DOMContentLoaded", () => {
   statItems.forEach((item) => statsObserver.observe(item));
 
   // === 3. ANIMACIÓN DE ENTRADA PARA BENTO ===
-const seccionBento = document.querySelector(".bento-grid");
+  const seccionBento = document.querySelector(".bento-grid");
 
-if (seccionBento) {
-  const bentoObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        // Dispara la cascada masiva de los .bento-item
-        entry.target.classList.add("visible");
-        // Dejamos de observar
-        bentoObserver.unobserve(entry.target);
-      }
-    });
-  }, {
-    // Se activa cuando asoma el 15% del contenedor del bento
-    threshold: 0.15,
-    rootMargin: "0px 0px -50px 0px"
-  });
+  if (seccionBento) {
+    const bentoObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Dispara la cascada masiva de los .bento-item
+            entry.target.classList.add("visible");
+            // Dejamos de observar
+            bentoObserver.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.15,
+        rootMargin: "0px 0px -50px 0px",
+      },
+    );
 
-  bentoObserver.observe(seccionBento);
-}
-
+    bentoObserver.observe(seccionBento);
+  }
 
   // === 4. ANIMACIÓN DE ENTRADA PARA SERVICIOS ===
-const filasServicios = document.querySelectorAll(".servicio-fila");
+  const filasServicios = document.querySelectorAll(".servicio-fila");
 
-console.log(filasServicios);
+  console.log(filasServicios);
 
+  if (filasServicios.length > 0) {
+    const filaObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Le pega la clase SOLO a la tarjeta que se está asomando
+            entry.target.classList.add("visible");
 
-if (filasServicios.length > 0) {
-  const filaObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        // Le pega la clase SOLO a la tarjeta que se está asomando
-        entry.target.classList.add("visible");
-        
-        // Dejamos de observarla individualmente para liberar memoria
-        filaObserver.unobserve(entry.target);
-      }
-    });
-  }, {
-    // Se activa cuando asoma el 15% de esa fila en específico
-    threshold: 0.15,
-    // El margen inferior asegura que se active un poquito antes de golpear el borde de la pantalla
-    rootMargin: "0px 0px -60px 0px"
-  });
+            filaObserver.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.15,
+        rootMargin: "0px 0px -60px 0px",
+      },
+    );
 
-  // Le decimos al observador que vigile cada una de las 5 filas por separado
-  filasServicios.forEach(fila => filaObserver.observe(fila));
-}
+    filasServicios.forEach((fila) => filaObserver.observe(fila));
+  }
 
   // === 5. ANIMACIÓN DE ENTRADA EN BANNER ===
   const bannerVisual = document.querySelector("#banner-visual");
@@ -139,7 +138,7 @@ if (filasServicios.length > 0) {
         });
       },
       { threshold: 0.4 },
-    ); // Se activa cuando asoma el 20% del banner
+    );
 
     bannerObserver.observe(bannerVisual);
   }
@@ -152,7 +151,6 @@ if (filasServicios.length > 0) {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            // Le añadimos la clase que dispara el CSS transition
             entry.target.classList.add("visible");
 
             procesoObserver.unobserve(entry.target);
@@ -168,7 +166,210 @@ if (filasServicios.length > 0) {
     procesoObserver.observe(seccionProceso);
   }
 
-  // === 7. EFECTO ACTIVE EN EL CTA DEL HERO ===
+  // === 6.5 ANIMACIÓN DE ENTRADA PARA TESTIMONIOS ===
+  const seccionTestimonios = document.querySelector("#testimonios");
+
+  if (seccionTestimonios) {
+    const testimoniosObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            testimoniosObserver.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.2,
+        rootMargin: "0px 0px -50px 0px",
+      },
+    );
+
+    testimoniosObserver.observe(seccionTestimonios);
+  }
+
+  // === 7. CARRUSEL DE TESTIMONIOS ===
+  const carrusel = document.querySelector(".testimonios-carrusel");
+
+  if (carrusel) {
+    const track = carrusel.querySelector(".testimonios-track");
+    const btnPrev = carrusel.querySelector(".testimonios-flecha--prev");
+    const btnNext = carrusel.querySelector(".testimonios-flecha--next");
+    const dots = Array.from(carrusel.querySelectorAll(".testimonios-dot"));
+
+    // Slides reales, tal como están en el HTML
+    const slidesReales = Array.from(
+      carrusel.querySelectorAll(".testimonio-slide"),
+    );
+    const totalReal = slidesReales.length;
+
+    // Carrusel infinito
+    const cloneUltimo = slidesReales[totalReal - 1].cloneNode(true);
+    const clonePrimero = slidesReales[0].cloneNode(true);
+    cloneUltimo.setAttribute("aria-hidden", "true");
+    clonePrimero.setAttribute("aria-hidden", "true");
+
+    track.insertBefore(cloneUltimo, slidesReales[0]);
+    track.appendChild(clonePrimero);
+
+    // El track ahora contiene: [clon-último, real-0, real-1, real-2, clon-primero]
+    const totalExtendido = totalReal + 2;
+
+    // indiceActual se mueve sobre ese arreglo extendido; arrancamos en 1,
+    // que corresponde al slide real 0.
+    let indiceActual = 1;
+    const INTERVALO_MS = 6000;
+    let autoplayId = null;
+
+    // Traduce un índice del arreglo extendido al índice real (para los puntos)
+    const indiceReal = (indiceExtendido) => {
+      if (indiceExtendido === 0) return totalReal - 1;
+      if (indiceExtendido === totalExtendido - 1) return 0;
+      return indiceExtendido - 1;
+    };
+
+    const actualizarDots = (indiceExtendido) => {
+      const activo = indiceReal(indiceExtendido);
+      dots.forEach((dot, i) => {
+        const esActivo = i === activo;
+        dot.classList.toggle("is-active", esActivo);
+        dot.setAttribute("aria-selected", esActivo ? "true" : "false");
+      });
+    };
+
+    const irASlide = (indice, { animar = true } = {}) => {
+      indiceActual = indice;
+
+      if (!animar) track.style.transition = "none";
+      track.style.transform = `translateX(-${indiceActual * 100}%)`;
+      if (!animar) {
+        // Forzamos reflow para que el salto sea instantáneo y luego
+        // restauramos la transición para el próximo movimiento normal
+        void track.offsetHeight;
+        track.style.transition = "";
+      }
+
+      actualizarDots(indiceActual);
+    };
+
+    // Al terminar la animación, si quedamos sobre uno de los clones,
+    // saltamos sin transición al slide real equivalente.
+    track.addEventListener("transitionend", (e) => {
+      if (e.propertyName !== "transform") return;
+
+      if (indiceActual === 0) {
+        irASlide(totalReal, { animar: false });
+      } else if (indiceActual === totalExtendido - 1) {
+        irASlide(1, { animar: false });
+      }
+    });
+
+    // Los puntos siempre representan un slide real (0, 1, 2...)
+    const irASlideReal = (indiceRealDestino) => {
+      irASlide(indiceRealDestino + 1);
+    };
+
+    const iniciarAutoplay = () => {
+      detenerAutoplay();
+      autoplayId = setInterval(() => irASlide(indiceActual + 1), INTERVALO_MS);
+    };
+
+    const detenerAutoplay = () => {
+      if (autoplayId) clearInterval(autoplayId);
+    };
+
+    // Flechas
+    btnNext?.addEventListener("click", () => {
+      irASlide(indiceActual + 1);
+      iniciarAutoplay(); // Reinicia el conteo tras interacción manual
+    });
+
+    btnPrev?.addEventListener("click", () => {
+      irASlide(indiceActual - 1);
+      iniciarAutoplay();
+    });
+
+    // Puntos indicadores
+    dots.forEach((dot, i) => {
+      dot.addEventListener("click", () => {
+        irASlideReal(i);
+        iniciarAutoplay();
+      });
+    });
+
+    // Pausa el autoplay al pasar el mouse o al enfocar con teclado
+    carrusel.addEventListener("mouseenter", detenerAutoplay);
+    carrusel.addEventListener("mouseleave", iniciarAutoplay);
+    carrusel.addEventListener("focusin", detenerAutoplay);
+    carrusel.addEventListener("focusout", iniciarAutoplay);
+
+    // Arrastre con mouse y touch (unificado con Pointer Events)
+    const viewport = carrusel.querySelector(".testimonios-viewport");
+    const UMBRAL_ARRASTRE = 50; // px mínimos para considerar cambio de slide
+
+    let arrastrando = false;
+    let xInicial = 0;
+    let deltaActual = 0;
+
+    const anchoViewport = () => viewport.offsetWidth;
+
+    const iniciarArrastre = (clientX) => {
+      arrastrando = true;
+      xInicial = clientX;
+      deltaActual = 0;
+      track.classList.add("is-arrastrando");
+      track.style.transition = "none"; // Sigue al dedo/cursor sin animación de por medio
+      detenerAutoplay();
+    };
+
+    const moverArrastre = (clientX) => {
+      if (!arrastrando) return;
+      deltaActual = clientX - xInicial;
+      const porcentajeBase = indiceActual * 100;
+      track.style.transform = `translateX(calc(-${porcentajeBase}% + ${deltaActual}px))`;
+    };
+
+    const finalizarArrastre = () => {
+      if (!arrastrando) return;
+      arrastrando = false;
+      track.classList.remove("is-arrastrando");
+      track.style.transition = ""; // Restaura la transición suave definida en CSS
+
+      if (Math.abs(deltaActual) > UMBRAL_ARRASTRE) {
+        deltaActual < 0
+          ? irASlide(indiceActual + 1)
+          : irASlide(indiceActual - 1);
+      } else {
+        irASlide(indiceActual); // Vuelve a acomodar el slide si el arrastre fue muy corto
+      }
+
+      iniciarAutoplay();
+    };
+
+    // Mouse y touch comparten la misma lógica gracias a Pointer Events
+    track.addEventListener("pointerdown", (e) => {
+      // Solo botón izquierdo en mouse; siempre permitido en touch/pen
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+      iniciarArrastre(e.clientX);
+      track.setPointerCapture(e.pointerId);
+    });
+
+    track.addEventListener("pointermove", (e) => {
+      moverArrastre(e.clientX);
+    });
+
+    track.addEventListener("pointerup", finalizarArrastre);
+    track.addEventListener("pointercancel", finalizarArrastre);
+
+    // Evita que el navegador intente "arrastrar" la imagen/texto como si fuera un elemento suelto
+    track.addEventListener("dragstart", (e) => e.preventDefault());
+
+    // Posición inicial sin animación (ya arranca mostrando el slide real 0)
+    irASlide(1, { animar: false });
+    iniciarAutoplay();
+  }
+
+  // === 8. EFECTO ACTIVE EN EL CTA DEL HERO ===
   const link = document.querySelector("#hero a");
 
   link?.addEventListener("click", function (e) {

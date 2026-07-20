@@ -1377,9 +1377,9 @@ main h3 {
 ══════════════════════════════════════════════════════════════ */
 #testimonios {
   padding: 0;
+  max-width: 100%;
   background-color: var(--azul-profundo);
   text-align: left;
-  max-width: 100% !important;
 }
 
 .testimonios-inner {
@@ -1396,10 +1396,21 @@ main h3 {
 
 /* Foto lateral izquierda */
 .testimonios-foto {
-  background-image: url("https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=800&q=80");
+  min-height: 300px;
+  background-image: url("../img/testimonials.webp");
   background-size: cover;
   background-position: center;
-  min-height: 300px;
+
+  opacity: 0;
+  transform: translateY(40px);
+  transition:
+    opacity var(--transicion-fade),
+    transform var(--transicion-fade);
+}
+
+#testimonios.visible .testimonios-foto {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 @media (max-width: 699px) {
@@ -1414,10 +1425,23 @@ main h3 {
   flex-direction: column;
   justify-content: center;
   padding: clamp(2.5rem, 6vw, 5rem) clamp(2rem, 6vw, 5rem);
+
+  opacity: 0;
+  transform: translateY(40px);
+  transition:
+    opacity var(--transicion-fade),
+    transform var(--transicion-fade);
+  transition-delay: 0.15s;
+}
+
+#testimonios.visible .testimonios-cita {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 #testimonios h2 {
   margin-bottom: 2rem;
+
   font-size: clamp(1.1rem, 2vw, 1.3rem);
   font-weight: 300;
   letter-spacing: 0.08em;
@@ -1426,12 +1450,13 @@ main h3 {
 }
 
 #testimonios figure {
-  max-width: 680px;
   margin: 0;
+  max-width: 680px;
 }
 
 #testimonios blockquote p {
   margin-bottom: 1.5rem;
+
   font-family: var(--fuente-display);
   font-size: clamp(1.6rem, 3.5vw, 2.4rem);
   font-style: italic;
@@ -1456,6 +1481,148 @@ main h3 {
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--azul-claro);
+}
+
+/* ── Carrusel de testimonios ─────────────────────────────── */
+.testimonios-carrusel {
+  max-width: 680px;
+}
+
+/* Contenedor relativo que ancla las flechas (mismo alto que el slide) */
+.testimonios-slider {
+  position: relative;
+  padding: 0 clamp(2.5rem, 6vw, 4.5rem);
+  margin: 0 clamp(-2.5rem, -6vw, -4.5rem);
+}
+
+/* Ventana visible: recorta cualquier slide que no sea el activo */
+.testimonios-viewport {
+  overflow: hidden;
+}
+
+.testimonios-track {
+  display: flex;
+
+  width: 100%;
+
+  cursor: grab;
+  user-select: none;
+
+  transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.testimonios-track.is-arrastrando {
+  cursor: grabbing;
+}
+
+.testimonio-slide {
+  flex: 0 0 100%;
+  margin: 0;
+  max-width: 100%;
+}
+
+/* Flechas de navegación */
+.testimonios-flecha {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 3rem;
+  height: 3rem;
+  background-color: rgba(255, 255, 255, 0.06);
+
+  font-size: 1.1rem;
+  line-height: 1;
+  color: var(--azul-claro);
+
+  border: 1px solid rgba(214, 232, 245, 0.4);
+  border-radius: 50%;
+
+  cursor: pointer;
+  transform: translateY(-50%);
+
+  transition:
+    background-color var(--transicion),
+    color var(--transicion),
+    border-color var(--transicion),
+    transform var(--transicion);
+}
+
+.testimonios-flecha:hover,
+.testimonios-flecha:focus-visible {
+  background-color: var(--acento-linea);
+  color: var(--azul-profundo);
+  border-color: var(--acento-linea);
+  transform: translateY(-50%) scale(1.06);
+}
+
+.testimonios-flecha:active {
+  background-color: var(--blanco);
+}
+
+.testimonios-flecha--prev {
+  left: 0;
+}
+
+.testimonios-flecha--next {
+  right: 0;
+}
+
+@media (max-width: 699px) {
+  .testimonios-slider {
+    padding: 0 0.25rem;
+    margin: 0;
+  }
+
+  .testimonios-flecha {
+    width: 2.4rem;
+    height: 2.4rem;
+    font-size: 0.9rem;
+  }
+
+  .testimonios-flecha--prev {
+    left: -0.5rem;
+  }
+
+  .testimonios-flecha--next {
+    right: -0.5rem;
+  }
+}
+
+/* Puntos indicadores */
+.testimonios-dots {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 2rem;
+}
+
+.testimonios-dot {
+  padding: 0;
+  width: 0.55rem;
+  height: 0.55rem;
+  background-color: rgba(214, 232, 245, 0.3);
+
+  border: none;
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  transition:
+    background-color var(--transicion),
+    transform var(--transicion);
+}
+
+.testimonios-dot:hover {
+  background-color: rgba(214, 232, 245, 0.6);
+}
+
+.testimonios-dot.is-active {
+  background-color: var(--acento-linea);
+  transform: scale(1.2);
 }
 
 /* ══════════════════════════════════════════════════════════════
