@@ -510,6 +510,26 @@ class FAQAcordeon {
   }
 }
 
-document
-  .querySelectorAll("#faq details")
-  .forEach((el) => new FAQAcordeon(el));
+document.querySelectorAll("#faq details").forEach((el) => new FAQAcordeon(el));
+
+// === 10. ANIMACION DE ENTRADA CONTACTO ===
+const seccionContacto = document.querySelector("#contacto");
+
+if (seccionContacto) {
+  const contactoObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          contactoObserver.unobserve(entry.target);
+        }
+      });
+    },
+    {
+      threshold: 0.15,
+      rootMargin: "0px 0px -40px 0px",
+    },
+  );
+
+  contactoObserver.observe(seccionContacto);
+}

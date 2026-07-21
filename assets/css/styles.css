@@ -1390,7 +1390,7 @@ main h3 {
 
 @media (min-width: 700px) {
   .testimonios-inner {
-    grid-template-columns: 420px 1fr;
+    grid-template-columns: 410px 1fr;
   }
 }
 
@@ -1424,7 +1424,9 @@ main h3 {
   display: flex;
   flex-direction: column;
   justify-content: center;
+
   padding: clamp(2.5rem, 6vw, 5rem) clamp(2rem, 6vw, 5rem);
+  width: 100%;
 
   opacity: 0;
   transform: translateY(40px);
@@ -1966,6 +1968,7 @@ main h3 {
 #faq .faq-acordeon {
   opacity: 0;
   transform: translateY(30px);
+
   transition:
     opacity var(--transicion-fade),
     transform var(--transicion-fade);
@@ -2011,9 +2014,9 @@ main h3 {
 }
 
 #faq details[open] {
+  margin: 1rem 0;
   background: var(--azul-suave);
   border-radius: 0 var(--radio-lg) var(--radio-lg) 0;
-  margin: 1rem 0;
 }
 
 #faq details[open]:hover {
@@ -2084,8 +2087,8 @@ main h3 {
 }
 
 #faq details p {
-  font-size: 0.93rem;
   padding: 0 1rem 1.25rem 1.25rem;
+  font-size: 0.93rem;
   line-height: 1.75;
   color: var(--gris-texto);
 }
@@ -2099,15 +2102,26 @@ main h3 {
   gap: 3rem;
 }
 
+.contacto-info {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+#contacto.visible .contacto-info {
+  opacity: 1;
+  transform: translateX(0);
+}
+
 .contacto-info h2 {
   margin-bottom: 0.75rem;
-
   color: var(--negro-suave);
 }
 
 .contacto-info > p {
   margin-bottom: 2rem;
-
   font-size: 0.97rem;
   line-height: 1.75;
   color: var(--gris-texto);
@@ -2139,13 +2153,27 @@ main h3 {
   transition:
     background var(--transicion),
     border-color var(--transicion),
-    transform var(--transicion);
+    transform var(--transicion),
+    box-shadow var(--transicion);
 }
 
 .contacto-item:hover {
   background: var(--azul-opaco);
   border-color: rgba(102, 197, 231, 0.5);
-  transform: translateX(4px);
+  transform: translateX(6px);
+  box-shadow: var(--sombra-fina);
+}
+
+/* Estado de presión táctil / clic en las tarjetas */
+.contacto-item:active {
+  transform: translateX(2px) scale(0.98);
+  background: var(--azul-light);
+  border-color: var(--secundario);
+  box-shadow: none;
+}
+
+.contacto-item:hover .contacto-item__icono {
+  transform: scale(1.08);
 }
 
 .contacto-item:nth-child(2) {
@@ -2166,12 +2194,17 @@ main h3 {
   background: rgba(102, 197, 231, 0.15);
 
   border-radius: var(--radio-md);
+
+  transition: transform var(--transicion);
 }
 
 .contacto-item__texto {
   display: flex;
   flex-direction: column;
   gap: 0.1rem;
+
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .contacto-item__texto strong {
@@ -2181,35 +2214,6 @@ main h3 {
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--secundario);
-}
-
-.contacto-item__texto {
-  font-size: 0.88rem;
-  color: rgba(255, 255, 255, 0.85);
-}
-
-.contacto-nota {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-
-  padding: 0.75rem 1rem;
-  background: var(--azul-profundo);
-
-  font-size: 0.8rem;
-  font-weight: 500;
-  letter-spacing: 0.03em;
-  color: var(--secundario);
-
-  border-left: 3px solid var(--secundario);
-  border-radius: 0 var(--radio-md) var(--radio-md) 0;
-}
-
-.contacto-nota svg {
-  width: 1rem;
-  height: 1rem;
-  flex-shrink: 0;
 }
 
 /* Círculo decorativo de fondo */
@@ -2236,12 +2240,16 @@ main h3 {
   background: var(--azul-profundo);
 
   border-radius: var(--radio-lg);
+  box-shadow: var(--sombra-media);
 
   overflow: hidden;
 
+  opacity: 0;
+  transform: translateY(30px);
   transition:
     box-shadow var(--transicion),
-    transform var(--transicion);
+    opacity 0.8s ease 0.15s,
+    transform 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.15s;
 }
 
 /* Círculo decorativo de fondo */
@@ -2261,11 +2269,9 @@ main h3 {
   pointer-events: none;
 }
 
-#contacto form:hover {
-  box-shadow:
-    0 20px 25px -5px rgba(0, 0, 0, 0.4),
-    0 10px 10px -5px rgba(0, 0, 0, 0.1);
-  transform: translateY(-4px);
+#contacto.visible form {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 #contacto fieldset {
@@ -2303,12 +2309,19 @@ main h3 {
   top: 0.6rem;
 
   font-size: 0.95rem;
-
   color: var(--gris-texto);
 
   pointer-events: none;
+
   transition:
+    top var(--transicion),
+    padding var(--transicion),
+    background-color var(--transicion),
+    font-size var(--transicion),
+    font-weight var(--transicion),
+    letter-spacing var(--transicion),
     color var(--transicion),
+    border-radius var(--transicion),
     transform var(--transicion);
 }
 
@@ -2318,12 +2331,12 @@ main h3 {
 .form__group--floating input:not(:placeholder-shown) + label,
 .form__group--floating textarea:not(:placeholder-shown) + label {
   top: 0;
-  left: 1rem;
+  left: 0.85rem;
 
-  padding: 0 0.3rem;
+  padding: 0 0.35rem;
   background-color: var(--azul-profundo);
 
-  font-size: 0.62rem;
+  font-size: 0.65rem;
   font-weight: 600;
   letter-spacing: 0.05rem;
   text-transform: uppercase;
@@ -2378,12 +2391,12 @@ main h3 {
 .form-actions {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
 .form-actions button[type="submit"] {
   padding: 0.85rem 1.75rem;
-  background: var(--secundario);
+  background-color: var(--secundario);
 
   font-family: var(--fuente-cuerpo);
   font-weight: 600;
@@ -2397,13 +2410,20 @@ main h3 {
   cursor: pointer;
 
   transition:
-    background var(--transicion),
+    background-color var(--transicion),
+    box-shadow var(--transicion),
     transform var(--transicion);
 }
 
 .form-actions button[type="submit"]:hover {
   background-color: var(--secundario-sombra);
+  box-shadow: 0 4px 12px rgba(102, 197, 231, 0.3);
   transform: translateY(-2px);
+}
+
+.form-actions button[type="submit"]:active {
+  transform: translateY(0) scale(0.97);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .form-actions button[type="reset"] {
@@ -2440,28 +2460,6 @@ main h3 {
     grid-template-columns: 1fr;
     gap: 2.5rem;
   }
-}
-
-/* ══════════════════════════════════════════════════════════════
-   ENLACE VOLVER AL INICIO
-══════════════════════════════════════════════════════════════ */
-main > a {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-
-  padding: 1rem var(--padding-x);
-
-  font-size: 0.82rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--gris-texto);
-
-  transition: color var(--transicion);
-}
-
-main > a:hover {
-  color: var(--azul);
 }
 
 /* ══════════════════════════════════════════════════════════════
