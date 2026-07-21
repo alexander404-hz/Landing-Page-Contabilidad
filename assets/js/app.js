@@ -240,6 +240,34 @@ if (carrusel) {
   const INTERVALO_MS = 6000;
   let autoplayId = null;
 
+  // Candado que evita iniciar un nuevo movimiento mientras el track
+  // todavía está animando el anterior. Sin esto, clicks o arrastres muy
+  // rápidos y seguidos pueden interrumpir la transición antes de que
+  // "transitionend" corrija el salto de clon -> slide real, dejando a
+  // indiceActual fuera del rango válido (el carrusel se queda "vacío").
+  let animando = false;
+  let animandoFallbackId = null;
+  // Debe ser un poco mayor a la duración real definida en CSS
+  // (.testimonios-track { transition: transform 0.8s ... }) para no
+  // liberar el candado antes de tiempo.
+  const DURACION_TRANSICION_MS = 900;
+
+  const bloquearAnimacion = () => {
+    animando = true;
+    // Respaldo: si por algún motivo "transitionend" no llega a dispararse
+    // (pestaña en segundo plano, elemento oculto, etc.), liberamos el
+    // candado igual para que el carrusel no quede bloqueado para siempre.
+    clearTimeout(animandoFallbackId);
+    animandoFallbackId = setTimeout(() => {
+      animando = false;
+    }, DURACION_TRANSICION_MS);
+  };
+
+  const liberarAnimacion = () => {
+    clearTimeout(animandoFallbackId);
+    animando = false;
+  };
+
   // Traduce un índice del arreglo extendido al índice real (para los puntos)
   const indiceReal = (indiceExtendido) => {
     if (indiceExtendido === 0) return totalReal - 1;
@@ -281,6 +309,10 @@ if (carrusel) {
     } else if (indiceActual === totalExtendido - 1) {
       irASlide(1, { animar: false });
     }
+
+    // Ya se corrigió (si hacía falta) y el track está en reposo:
+    // recién ahora permitimos la siguiente interacción.
+    liberarAnimacion();
   });
 
   // Los puntos siempre representan un slide real (0, 1, 2...)
@@ -290,7 +322,11 @@ if (carrusel) {
 
   const iniciarAutoplay = () => {
     detenerAutoplay();
-    autoplayId = setInterval(() => irASlide(indiceActual + 1), INTERVALO_MS);
+    autoplayId = setInterval(() => {
+      if (animando) return;
+      bloquearAnimacion();
+      irASlide(indiceActual + 1);
+    }, INTERVALO_MS);
   };
 
   const detenerAutoplay = () => {
@@ -299,11 +335,15 @@ if (carrusel) {
 
   // Flechas
   btnNext?.addEventListener("click", () => {
+    if (animando) return; // ignora clicks repetidos mientras se anima
+    bloquearAnimacion();
     irASlide(indiceActual + 1);
     iniciarAutoplay(); // Reinicia el conteo tras interacción manual
   });
 
   btnPrev?.addEventListener("click", () => {
+    if (animando) return;
+    bloquearAnimacion();
     irASlide(indiceActual - 1);
     iniciarAutoplay();
   });
@@ -311,6 +351,8 @@ if (carrusel) {
   // Puntos indicadores
   dots.forEach((dot, i) => {
     dot.addEventListener("click", () => {
+      if (animando) return;
+      bloquearAnimacion();
       irASlideReal(i);
       iniciarAutoplay();
     });
@@ -354,6 +396,13 @@ if (carrusel) {
     track.classList.remove("is-arrastrando");
     track.style.transition = ""; // Restaura la transición suave definida en CSS
 
+    // Si hubo desplazamiento real, se disparará una transición (de acomodo
+    // o de cambio de slide), así que bloqueamos nuevas interacciones hasta
+    // que "transitionend" la libere. Si deltaActual es 0 (solo fue un
+    // click/tap sin mover), el transform no cambia y "transitionend" nunca
+    // se dispararía, así que en ese caso no bloqueamos nada.
+    if (deltaActual !== 0) bloquearAnimacion();
+
     if (Math.abs(deltaActual) > UMBRAL_ARRASTRE) {
       deltaActual < 0 ? irASlide(indiceActual + 1) : irASlide(indiceActual - 1);
     } else {
@@ -365,6 +414,10 @@ if (carrusel) {
 
   // Mouse y touch comparten la misma lógica gracias a Pointer Events
   track.addEventListener("pointerdown", (e) => {
+    // Ignora el inicio de un arrastre si todavía hay una transición
+    // (de click o de otro arrastre) en curso; si no, se puede empezar a
+    // arrastrar desde una posición "a medio camino" y corromper el índice.
+    if (animando) return;
     // Solo botón izquierdo en mouse; siempre permitido en touch/pen
     if (e.pointerType === "mouse" && e.button !== 0) return;
     iniciarArrastre(e.clientX);
