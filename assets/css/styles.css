@@ -1425,35 +1425,47 @@ main h3 {
   min-height: 360px;
 }
 
-@media (min-width: 700px) {
+@media (min-width: 768px) {
   .testimonios-inner {
-    grid-template-columns: 410px 1fr;
+    grid-template-columns: 300px minmax(0, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .testimonios-inner {
+    grid-template-columns: 410px minmax(0, 1fr);
   }
 }
 
 /* Foto lateral izquierda */
 .testimonios-foto {
-  min-height: 300px;
+  min-height: 200px;
   background-image: url("../img/testimonials.webp");
   background-size: cover;
-  background-position: center;
+  background-position: 40%;
 
   opacity: 0;
-  transform: translateY(40px);
+  transform: translateX(-40px);
   transition:
     opacity var(--transicion-fade),
     transform var(--transicion-fade);
 }
 
-#testimonios.visible .testimonios-foto {
-  opacity: 1;
-  transform: translateY(0);
+@media (min-width: 768px) {
+  .testimonios-foto {
+    min-height: 300px;
+  }
 }
 
-@media (max-width: 699px) {
+@media (min-width: 1024px) {
   .testimonios-foto {
-    min-height: 200px;
+    background-position: center;
   }
+}
+
+#testimonios.visible .testimonios-foto {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 /* Cita */
@@ -1463,19 +1475,18 @@ main h3 {
   justify-content: center;
 
   padding: clamp(2.5rem, 6vw, 5rem) clamp(2rem, 6vw, 5rem);
-  width: 100%;
 
   opacity: 0;
-  transform: translateY(40px);
+  transform: translateX(40px);
+
   transition:
     opacity var(--transicion-fade),
     transform var(--transicion-fade);
-  transition-delay: 0.15s;
 }
 
 #testimonios.visible .testimonios-cita {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateX(0);
 }
 
 #testimonios h2 {
@@ -1516,7 +1527,7 @@ main h3 {
 
 #testimonios figcaption cite {
   font-style: normal;
-  font-size: 0.85rem;
+  font-size: clamp(0.7rem, 1.4vw, 0.8rem);
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--azul-claro);
@@ -1570,8 +1581,8 @@ main h3 {
   align-items: center;
   justify-content: center;
 
-  width: 3rem;
-  height: 3rem;
+  width: 44px;
+  height: 44px;
   background-color: rgba(255, 255, 255, 0.06);
 
   font-size: 1.1rem;
@@ -1589,6 +1600,13 @@ main h3 {
     color var(--transicion),
     border-color var(--transicion),
     transform var(--transicion);
+}
+
+@media (min-width: 1024px) {
+  .testimonios-flecha {
+    width: 3rem;
+    height: 3rem;
+  }
 }
 
 .testimonios-flecha:hover,
