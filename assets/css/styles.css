@@ -79,6 +79,13 @@
   }
 }
 
+@keyframes slideIn {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 @keyframes whatsapp-pulso {
   0% {
     transform: scale(1);
@@ -1886,6 +1893,7 @@ main h3 {
 #faq .faq-lateral {
   position: sticky;
   top: 6rem;
+
   color: var(--gris-texto);
 
   opacity: 0;
@@ -2101,14 +2109,22 @@ main h3 {
    CONTACTO — layout dos columnas: panel azul + formulario
 ══════════════════════════════════════════════════════════════ */
 .contacto-grid {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 3rem;
+  display: flex;
+  gap: 0;
+}
+
+@media (min-width: 1024px) {
+  .contacto-grid {
+    gap: 4rem;
+  }
 }
 
 .contacto-info {
+  flex: 1;
+  min-width: 380px;
+
   opacity: 0;
-  transform: translateX(-30px);
+  transform: translateX(-50px);
   transition:
     opacity var(--transicion-fade),
     transform var(--transicion-fade);
@@ -2126,7 +2142,7 @@ main h3 {
 
 .contacto-info > p {
   margin-bottom: 2rem;
-  font-size: 0.97rem;
+  font-size: var(--font-m);
   line-height: 1.75;
   color: var(--gris-texto);
 }
@@ -2146,7 +2162,7 @@ main h3 {
   align-items: center;
   gap: 1rem;
 
-  width: 80%;
+  width: 85%;
   padding: 0.9rem 1.1rem;
   background: var(--azul-profundo);
 
@@ -2154,38 +2170,50 @@ main h3 {
   border-radius: var(--radio-lg);
 
   text-decoration: none;
+
+  opacity: 0;
+  transform: translateX(-50px);
+
   transition:
     background var(--transicion),
     border-color var(--transicion),
-    transform var(--transicion),
-    box-shadow var(--transicion);
+    box-shadow var(--transicion),
+    scale var(--transicion),
+    translate var(--transicion);
 }
 
-.contacto-item:hover {
+#contacto.visible .contacto-item {
+  animation: slideIn 0.6s ease forwards;
+}
+
+#contacto.visible .contacto-item:nth-child(2) {
+  width: 75%;
+  animation-delay: 0.2s;
+}
+
+#contacto.visible .contacto-item:nth-child(3) {
+  width: 65%;
+  animation-delay: 0.4s;
+}
+
+#contacto .contacto-item:hover {
   background: var(--azul-opaco);
   border-color: rgba(102, 197, 231, 0.5);
   box-shadow: var(--sombra-fina);
-  transform: translateX(6px);
+  translate: 6px;
 }
 
 /* Estado de presión táctil / clic en las tarjetas */
-.contacto-item:active {
+#contacto .contacto-item:active {
   background: var(--azul-light);
   border-color: var(--secundario);
   box-shadow: none;
-  transform: translateX(2px) scale(0.98);
+  scale: 0.98;
+  transform: translateX(2px);
 }
 
 .contacto-item:hover .contacto-item__icono {
   transform: scale(1.08);
-}
-
-.contacto-item:nth-child(2) {
-  width: 70%;
-}
-
-.contacto-item:nth-child(3) {
-  width: 60%;
 }
 
 .contacto-item__icono {
@@ -2239,9 +2267,10 @@ main h3 {
 }
 
 #contacto form {
+  flex: auto;
   position: relative;
 
-  padding: 2rem;
+  padding: clamp(1.5rem, 3.1vw, 2rem);
   background: var(--azul-profundo);
 
   border-radius: var(--radio-lg);
@@ -2250,11 +2279,11 @@ main h3 {
   overflow: hidden;
 
   opacity: 0;
-  transform: translateY(30px);
+  transform: translateX(50px);
   transition:
     box-shadow var(--transicion),
-    opacity var(--transicion-fade) 0.2s,
-    transform var(--transicion-fade) 0.2s;
+    opacity var(--transicion-fade),
+    transform var(--transicion-fade);
 }
 
 /* Círculo decorativo de fondo */
@@ -2394,7 +2423,9 @@ main h3 {
 
 .form-actions {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
   gap: 1rem;
 }
 
@@ -2457,13 +2488,6 @@ main h3 {
 .form-actions button[type="reset"]:active {
   border: 1px solid var(--secundario);
   color: var(--secundario);
-}
-
-@media (max-width: 800px) {
-  .contacto-grid {
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
-  }
 }
 
 /* ══════════════════════════════════════════════════════════════
