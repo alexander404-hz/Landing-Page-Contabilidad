@@ -1703,7 +1703,7 @@ main h3 {
 .nosotros-description p {
   margin-bottom: 1.25rem;
 
-  font-size: 1.05rem;
+  font-size: var(--font-m);
   line-height: 1.8;
   text-align: justify;
   color: var(--gris-texto);
@@ -1787,7 +1787,7 @@ main h3 {
   margin: 0 auto 2rem;
   padding-bottom: 0.75rem;
 
-  font-size: 1.2rem;
+  font-size: clamp(1.25rem, 2.6vw, 1.75rem);
   font-weight: 600;
   color: var(--azul-profundo);
 
