@@ -61,7 +61,7 @@
 
   /* Layout */
   --ancho-max: 1100px;
-  --padding-x: clamp(1.25rem, 5vw, 3rem);
+  --padding-x: clamp(1rem, 0.5rem + 2vw, 1.75rem);
 }
 
 /* ── Animaciones ─────────────────────────────────────────────── */
@@ -167,14 +167,16 @@ header {
   box-shadow: 0 8px 8px rgba(27, 50, 84, 0.07);
 }
 
+@media (min-width: 1024px) {
+  .header {
+    padding: 0.25rem 3rem;
+  }
+}
+
 /* Logo en header */
 .header-logo {
   display: flex;
   align-items: center;
-
-  font-size: 1.5rem;
-  font-weight: 900;
-  font-family: var(--fuente-display);
 
   transition:
     opacity var(--transicion),
@@ -191,9 +193,33 @@ header {
   width: auto;
 }
 
-.header-logo span {
-  margin-left: 0.5rem;
+.header-name {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  font-family: var(--fuente-display);
+  font-size: 1.3rem;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+@media (min-width: 1024px) {
+  .header-name {
+    flex-direction: row;
+    font-size: 1.5rem;
+    line-height: 1.7;
+  }
+}
+
+.header-name span {
   color: var(--secundario);
+}
+
+@media (min-width: 1024px) {
+  .header-name span {
+    margin-left: 0.5rem;
+  }
 }
 
 /* Navegación */
@@ -329,8 +355,8 @@ main h3 {
   background: linear-gradient(
     105deg,
     rgba(27, 50, 84, 0.95) 0%,
-    rgba(27, 50, 84, 0.85) 40%,
-    rgba(27, 50, 84, 0.35) 70%,
+    rgba(27, 50, 84, 0.85) 42%,
+    rgba(27, 50, 84, 0.35) 72%,
     rgba(42, 75, 119, 0.08) 100%
   );
 }
@@ -356,8 +382,9 @@ main h3 {
   flex-direction: column;
   justify-content: center;
 
-  max-width: 680px;
   padding: clamp(3rem, 7vw, 4.5rem) var(--padding-x);
+  max-width: 680px;
+  width: 68%;
 }
 
 #hero h1 {
@@ -376,7 +403,7 @@ main h3 {
 #hero p {
   margin-bottom: 2rem;
 
-  font-size: clamp(0.95rem, 1.4vw, 1.05rem);
+  font-size: clamp(0.85rem, 1.4vw, 1.05rem);
   color: rgba(255, 255, 255, 0.78);
   line-height: 1.75;
 
@@ -399,7 +426,7 @@ main h3 {
 #hero .hero-pills strong {
   padding: 0.3rem 0.85rem;
 
-  font-size: 0.78rem;
+  font-size: clamp(0.68rem, 1.4vw, 0.78rem);
   font-weight: 500;
   letter-spacing: 0.04em;
   color: var(--secundario);
@@ -426,11 +453,11 @@ main h3 {
   align-items: center;
   gap: 0.6rem;
 
-  padding: 0.9rem 1.75rem;
+  padding: clamp(0.4rem, 1.7vw, 0.8rem) clamp(1rem, 2.8vw, 1.75rem);
   background-color: var(--secundario);
 
   font-weight: 500;
-  font-size: 0.88rem;
+  font-size: clamp(0.75rem, 1.4vw, 0.88rem);
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--azul-profundo);
