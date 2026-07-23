@@ -101,6 +101,42 @@
   }
 }
 
+/* ── Iconos ─────────────────────────────────────────────── */
+
+.icon {
+  display: inline-block;
+  width: 80%; /* Ajusta el tamaño que quieras */
+  height: 80%;
+  background-color: var(--blanco);
+
+  transition: background-color var(--transicion);
+}
+
+.icon-gmail {
+  -webkit-mask-image: url("../icons/gmail.svg");
+  mask-image: url("../icons/gmail.svg");
+}
+
+.icon-whatsapp {
+  -webkit-mask-image: url("../icons/whatsapp.svg");
+  mask-image: url("../icons/whatsapp.svg");
+}
+
+.icon-facebook {
+  -webkit-mask-image: url("../icons/facebook.svg");
+  mask-image: url("../icons/facebook.svg");
+}
+
+.icon-instagram {
+  -webkit-mask-image: url("../icons/instagram.svg");
+  mask-image: url("../icons/instagram.svg");
+}
+
+.icon-linkedin {
+  -webkit-mask-image: url("../icons/linkedin.svg");
+  mask-image: url("../icons/linkedin.svg");
+}
+
 /* ── Reset base ─────────────────────────────────────────────── */
 *,
 *::before,
@@ -2520,6 +2556,7 @@ footer.visible {
 
 .footer-description {
   flex: 1;
+  min-width: 200px;
 }
 
 .footer-description > p:first-child {
@@ -2540,8 +2577,6 @@ footer.visible {
 
 footer nav {
   flex: auto;
-
-  max-width: 500px;
 }
 
 footer nav ul {
@@ -2584,40 +2619,6 @@ footer nav a:active {
   box-shadow: none;
 }
 
-.icon {
-  display: inline-block;
-  width: 80%; /* Ajusta el tamaño que quieras */
-  height: 80%;
-  background-color: var(--blanco);
-
-  transition: background-color var(--transicion);
-}
-
-.icon-gmail {
-  -webkit-mask-image: url("../icons/gmail.svg");
-  mask-image: url("../icons/gmail.svg");
-}
-
-.icon-whatsapp {
-  -webkit-mask-image: url("../icons/whatsapp.svg");
-  mask-image: url("../icons/whatsapp.svg");
-}
-
-.icon-facebook {
-  -webkit-mask-image: url("../icons/facebook.svg");
-  mask-image: url("../icons/facebook.svg");
-}
-
-.icon-instagram {
-  -webkit-mask-image: url("../icons/instagram.svg");
-  mask-image: url("../icons/instagram.svg");
-}
-
-.icon-linkedin {
-  -webkit-mask-image: url("../icons/linkedin.svg");
-  mask-image: url("../icons/linkedin.svg");
-}
-
 footer nav ul li:hover .icon-gmail {
   background-color: var(--color-gmail);
 }
@@ -2642,6 +2643,8 @@ footer nav ul li:hover .icon-linkedin {
   flex: 1;
   display: flex;
   align-items: center;
+
+  min-width: 200px;
 
   line-height: 1.6;
   font-size: 0.8rem;
