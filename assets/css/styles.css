@@ -318,7 +318,6 @@ header nav {
     position: static;
     max-height: none;
     overflow: visible;
-
   }
 }
 
@@ -738,7 +737,7 @@ main h3 {
 }
 
 .beneficios-stats .stat-item {
-  flex: 1;
+  flex: 1 1 175px;
   position: relative;
 
   display: flex;
@@ -746,17 +745,23 @@ main h3 {
   align-items: center;
   gap: 0.2rem;
 
-  min-width: 150px;
   padding: clamp(1.75rem, 4vw, 2.75rem) 1.25rem;
 
   text-align: center;
 
   opacity: 0;
   transform: translateY(75px);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05);
 
   transition:
     opacity var(--transicion-fade),
     transform var(--transicion-fade);
+}
+
+@media (min-width: 768px) {
+  .beneficios-stats .stat-item {
+    flex: 1;
+  }
 }
 
 .beneficios-stats .stat-item.visible {
@@ -843,14 +848,6 @@ main h3 {
   color: var(--blanco);
 
   opacity: 0.88;
-}
-
-@media (max-width: 640px) {
-  .beneficios-stats .stat-item {
-    min-width: 50%;
-
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05);
-  }
 }
 
 /* Bento */
@@ -991,8 +988,10 @@ main h3 {
   border: none;
 }
 
-.bento-item.destacado .bento-header {
-  margin: 0;
+@media (min-width: 768px) {
+  .bento-item.destacado .bento-header {
+    margin: 0;
+  }
 }
 
 .bento-item.destacado .bento-icono {
@@ -1014,9 +1013,14 @@ main h3 {
 }
 
 .bento-item.destacado h3 {
-  margin: 0;
   min-width: 150px;
   color: var(--blanco);
+}
+
+@media (min-width: 768px) {
+  .bento-item.destacado h3 {
+    margin: 0;
+  }
 }
 
 .bento-item.destacado p {
@@ -1587,15 +1591,16 @@ main h3 {
 ══════════════════════════════════════════════════════════════ */
 #testimonios {
   padding: 0;
+  margin: 0;
   max-width: 100%;
+
   background-color: var(--azul-profundo);
   text-align: left;
 }
 
 .testimonios-inner {
   display: grid;
-  grid-template-columns: 1fr;
-  min-height: 360px;
+  grid-template-columns: minmax(0, 1fr);
 }
 
 @media (min-width: 768px) {
@@ -1612,6 +1617,7 @@ main h3 {
 
 /* Foto lateral izquierda */
 .testimonios-foto {
+  min-width: 0;
   min-height: 200px;
   background-image: url("../img/testimonials.webp");
   background-size: cover;
@@ -1622,6 +1628,12 @@ main h3 {
   transition:
     opacity var(--transicion-fade),
     transform var(--transicion-fade);
+}
+
+@media (min-width: 480px) {
+  .testimonios-foto {
+    min-height: 240px;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -1640,8 +1652,9 @@ main h3 {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  min-width: 0;
 
-  padding: clamp(2.5rem, 6vw, 5rem) clamp(2rem, 6vw, 5rem);
+  padding: 2rem 1rem;
 
   opacity: 0;
   transform: translateX(40px);
@@ -1651,83 +1664,78 @@ main h3 {
     transform var(--transicion-fade);
 }
 
+@media (min-width: 480px) {
+  .testimonios-cita {
+    padding: 3rem clamp(1rem, 3.3vw, 2rem);
+  }
+}
+
+@media (min-width: 768px) {
+  .testimonios-cita {
+    padding: clamp(3.5rem, 5.4vw, 5rem) clamp(1.5rem, 3.1vw, 3rem);
+  }
+}
+
+@media (min-width: 1024px) {
+  .testimonios-cita {
+    padding-inline: clamp(2.5rem, 3.9vw, 4rem);
+  }
+}
+
 #testimonios.visible .testimonios-cita {
   opacity: 1;
   transform: translateX(0);
 }
 
 #testimonios h2 {
-  margin-bottom: 2rem;
+  margin-bottom: 0.9rem;
 
-  font-size: clamp(1.1rem, 2vw, 1.3rem);
+  font-size: 0.85rem;
   font-weight: 300;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--azul-claro);
 }
 
-#testimonios figure {
-  margin: 0;
-  max-width: 680px;
+@media (min-width: 480px) {
+  #testimonios h2 {
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+  }
 }
 
-#testimonios blockquote p {
-  margin-bottom: 1.5rem;
-
-  font-family: var(--fuente-display);
-  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
-  font-style: italic;
-  font-weight: 400;
-  line-height: 1.4;
-  color: var(--blanco);
-}
-
-#testimonios blockquote p::before {
-  content: "\201C";
-  color: var(--acento-linea);
-}
-
-#testimonios blockquote p::after {
-  content: "\201D";
-  color: var(--acento-linea);
-}
-
-#testimonios figcaption cite {
-  font-style: normal;
-  font-size: clamp(0.7rem, 1.4vw, 0.8rem);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--azul-claro);
+@media (min-width: 768px) {
+  #testimonios h2 {
+    margin-bottom: 1.75rem;
+    font-size: 1.1rem;
+  }
 }
 
 /* ── Carrusel de testimonios ─────────────────────────────── */
 .testimonios-carrusel {
+  width: 100%;
+  min-width: 0;
   max-width: 680px;
 }
 
-/* Contenedor relativo que ancla las flechas (mismo alto que el slide) */
+/* Contenedor relativo que ancla las flechas: ya no lleva padding
+   propio, así que su ancho coincide siempre con el del viewport
+   y las flechas nunca se salen de la columna de la cita. */
 .testimonios-slider {
   position: relative;
-  padding: 0 0.25rem;
-  margin: 0;
-}
-
-@media (min-width: 768px) {
-  .testimonios-slider {
-    padding: 0 clamp(2.5rem, 6vw, 4.5rem);
-    margin: 0 clamp(-2.5rem, -6vw, -4.5rem);
-  }
 }
 
 /* Ventana visible: recorta cualquier slide que no sea el activo */
 .testimonios-viewport {
   overflow: hidden;
+  width: 100%;
 }
 
 .testimonios-track {
   display: flex;
 
   width: 100%;
+  max-width: 100%;
 
   cursor: grab;
   user-select: none;
@@ -1741,11 +1749,69 @@ main h3 {
 
 .testimonio-slide {
   flex: 0 0 100%;
-  margin: 0;
-  max-width: 100%;
+  padding: 0 3rem 0.5rem;
 }
 
-/* Flechas de navegación */
+@media (min-width: 768px) {
+  .testimonio-slide {
+    padding: 0 3.5rem 0.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .testimonio-slide {
+    padding: 0 4rem 0.5rem;
+  }
+}
+
+#testimonios blockquote p::before {
+  content: "\201C";
+  color: var(--acento-linea);
+}
+
+#testimonios blockquote p {
+  margin-bottom: 1.25rem;
+
+  font-family: var(--fuente-display);
+  font-size: 1.5rem;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--blanco);
+}
+
+@media (min-width: 480px) {
+  #testimonios blockquote p {
+    font-size: 1.65rem;
+  }
+}
+
+@media (min-width: 768px) {
+  #testimonios blockquote p {
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+  }
+}
+
+#testimonios blockquote p::after {
+  content: "\201D";
+  color: var(--acento-linea);
+}
+
+#testimonios figcaption cite {
+  font-style: normal;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--azul-claro);
+}
+
+@media (min-width: 768px) {
+  #testimonios figcaption cite {
+    font-size: 0.8rem;
+  }
+}
+
 .testimonios-flecha {
   position: absolute;
   top: 50%;
@@ -1755,11 +1821,11 @@ main h3 {
   align-items: center;
   justify-content: center;
 
-  width: 44px;
-  height: 44px;
+  width: 2.1rem;
+  height: 2.1rem;
   background-color: rgba(255, 255, 255, 0.06);
 
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   line-height: 1;
   color: var(--azul-claro);
 
@@ -1776,10 +1842,19 @@ main h3 {
     transform var(--transicion);
 }
 
+@media (min-width: 768px) {
+  .testimonios-flecha {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1.05rem;
+  }
+}
+
 @media (min-width: 1024px) {
   .testimonios-flecha {
     width: 3rem;
     height: 3rem;
+    font-size: 1.1rem;
   }
 }
 
@@ -1796,36 +1871,40 @@ main h3 {
 }
 
 .testimonios-flecha--prev {
-  left: -0.5rem;
-}
-
-@media (min-width: 768px) {
-  .testimonios-flecha--prev {
-    left: 0;
-  }
+  left: 0.15rem;
 }
 
 .testimonios-flecha--next {
-  right: -0.5rem;
+  right: 0.15rem;
 }
 
 @media (min-width: 768px) {
   .testimonios-flecha--prev {
-    right: 0;
+    left: 0.25rem;
+  }
+
+  .testimonios-flecha--next {
+    right: 0.25rem;
   }
 }
 
-/* Puntos indicadores */
 .testimonios-dots {
   display: flex;
   gap: 0.6rem;
-  margin-top: 2rem;
+  padding-left: 3rem;
+}
+
+@media (min-width: 768px) {
+  .testimonios-dots {
+    padding-left: 4rem;
+  }
 }
 
 .testimonios-dot {
   padding: 0;
-  width: 0.55rem;
-  height: 0.55rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  flex-shrink: 0;
   background-color: rgba(214, 232, 245, 0.3);
 
   border: none;
@@ -1836,6 +1915,13 @@ main h3 {
   transition:
     background-color var(--transicion),
     transform var(--transicion);
+}
+
+@media (min-width: 768px) {
+  .testimonios-dot {
+    width: 0.55rem;
+    height: 0.55rem;
+  }
 }
 
 .testimonios-dot:hover {
