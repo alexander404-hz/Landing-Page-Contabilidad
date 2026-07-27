@@ -2,6 +2,58 @@
 // Inicialización unificada de la Landing Page
 // ----------------------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
+  // === 0. MENÚ DESPLEGABLE (hamburguesa) ===
+  const navToggle = document.querySelector(".nav-toggle");
+  const menuPrincipal = document.getElementById("menu-principal");
+
+  if (navToggle && menuPrincipal) {
+    const mqDesktop = window.matchMedia("(min-width: 768px)");
+
+    const cerrarMenu = () => {
+      // En escritorio el nav ya es horizontal y estático: no hay nada que
+      // cerrar ni max-height que tocar.
+      if (mqDesktop.matches) return;
+
+      navToggle.setAttribute("aria-expanded", "false");
+      // Forzamos el valor actual antes de animar a 0, por si el navegador
+      // aún tenía "auto" o ningún valor explícito asignado.
+      menuPrincipal.style.maxHeight = menuPrincipal.scrollHeight + "px";
+      requestAnimationFrame(() => {
+        menuPrincipal.style.maxHeight = "0px";
+      });
+    };
+
+    const abrirMenu = () => {
+      if (mqDesktop.matches) return;
+
+      navToggle.setAttribute("aria-expanded", "true");
+      menuPrincipal.style.maxHeight = menuPrincipal.scrollHeight + "px";
+    };
+
+    navToggle.addEventListener("click", () => {
+      const estaAbierto = navToggle.getAttribute("aria-expanded") === "true";
+      estaAbierto ? cerrarMenu() : abrirMenu();
+    });
+
+    // Cerrar al hacer click en un enlace del menú
+    menuPrincipal.querySelectorAll("a").forEach((enlace) => {
+      enlace.addEventListener("click", cerrarMenu);
+    });
+
+    // Cerrar al hacer click fuera del header
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest("header")) cerrarMenu();
+    });
+
+    // Cerrar y resetear si la ventana pasa a escritorio (768px+)
+    mqDesktop.addEventListener("change", (e) => {
+      if (e.matches) {
+        navToggle.setAttribute("aria-expanded", "false");
+        menuPrincipal.style.maxHeight = "";
+      }
+    });
+  }
+
   // === 1. ANIMACIÓN DE SECCIÓN EN EL NAV ===
   const sections = document.querySelectorAll("section");
   const navLinks = document.querySelectorAll("header nav a");

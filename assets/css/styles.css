@@ -182,7 +182,6 @@ ol {
   padding-left: 1.25rem;
 }
 
-/* ── Utilidad - Línea decorativa de acento ─────────────────────────────── */
 .linea-decorativa {
   display: block;
   height: 4px;
@@ -194,26 +193,32 @@ ol {
    HEADER
 ══════════════════════════════════════════════════════════════ */
 header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-
   position: sticky;
   top: 0;
   z-index: 100;
 
-  padding: 0.25rem var(--padding-x);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+
+  padding: 0.4rem var(--padding-x);
   background-color: var(--blanco);
 
   border-bottom: 2px solid var(--gris-medio);
   box-shadow: 0 8px 8px rgba(27, 50, 84, 0.07);
 }
 
+@media (min-width: 768px) {
+  header {
+    padding-block: 0.25rem;
+    gap: 1.5rem;
+  }
+}
+
 @media (min-width: 1024px) {
-  .header {
-    padding: 0.25rem 3rem;
+  header {
+    padding-inline: 3rem;
   }
 }
 
@@ -233,19 +238,37 @@ header {
 }
 
 .header-logo img {
-  height: 60px;
+  height: 42px;
   width: auto;
+}
+
+@media (min-width: 768px) {
+  .header-logo img {
+    height: 50px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .header-logo img {
+    height: 56px;
+  }
 }
 
 .header-name {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
 
   font-family: var(--fuente-display);
-  font-size: 1.3rem;
+  font-size: 1.25rem;
   font-weight: 900;
   line-height: 1.2;
+}
+
+@media (min-width: 768px) {
+  .header-name {
+    flex-direction: column;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -257,7 +280,15 @@ header {
 }
 
 .header-name span {
+  margin-left: 0.5rem;
+
   color: var(--secundario);
+}
+
+@media (min-width: 768px) {
+  .header-name span {
+    margin-left: 0;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -268,14 +299,51 @@ header {
 
 /* Navegación */
 
+header nav {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+
+  max-height: 0;
+  overflow: hidden;
+
+  background-color: var(--blanco);
+
+  transition: max-height var(--transicion-slow);
+}
+
+@media (min-width: 768px) {
+  header nav {
+    position: static;
+    max-height: none;
+    overflow: visible;
+
+  }
+}
+
 header nav ul {
   display: flex;
+  justify-content: center;
+  padding-block: 0.5rem;
   gap: 0.25rem;
-  flex-wrap: wrap;
 
-  padding: 0;
+  background-color: var(--azul-suave);
+  border-top: 2px solid var(--gris-medio);
 
   list-style: none;
+}
+
+@media (min-width: 768px) {
+  header nav ul {
+    flex-direction: row;
+    align-items: stretch;
+
+    padding: 0;
+    background-color: transparent;
+
+    border-top: none;
+  }
 }
 
 header nav a {
@@ -341,6 +409,68 @@ header nav a.current::after {
   scale: 1 1;
 }
 
+/* Botón hamburguesa */
+.nav-toggle {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  width: 44px;
+  height: 44px;
+  padding: 0;
+
+  background: transparent;
+  border: none;
+  border-radius: var(--radio);
+  cursor: pointer;
+
+  transition:
+    background var(--transicion),
+    scale var(--transicion);
+}
+
+.nav-toggle:hover {
+  background: var(--azul-claro);
+  scale: 1.05;
+}
+
+.nav-toggle:active {
+  background: var(--azul-light);
+  scale: 0.9;
+}
+
+.nav-toggle-barra {
+  width: 22px;
+  height: 2px;
+
+  background-color: var(--primario);
+  border-radius: 2px;
+
+  transition:
+    transform var(--transicion-slow),
+    opacity var(--transicion-slow);
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle-barra:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle-barra:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle-barra:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+@media (min-width: 768px) {
+  .nav-toggle {
+    display: none;
+  }
+}
+
 /* ══════════════════════════════════════════════════════════════
    SECCIONES — estructura compartida
 ══════════════════════════════════════════════════════════════ */
@@ -351,7 +481,7 @@ main {
 
 main > section {
   max-width: var(--ancho-max);
-  padding: clamp(3rem, 7vw, 5.5rem) var(--padding-x) 3rem;
+  padding: clamp(3rem, 9vw, 5.5rem) var(--padding-x) 3rem;
   margin: 0 auto;
 }
 
