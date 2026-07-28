@@ -149,8 +149,7 @@
 html {
   font-size: 16px;
   scroll-behavior: smooth;
-  overflow-x: hidden;
-  overflow-y: visible;
+  overflow-x: clip;
 }
 
 body {
@@ -163,8 +162,7 @@ body {
 
   -webkit-font-smoothing: antialiased;
 
-  overflow-x: hidden;
-  overflow-y: hidden;
+  overflow-x: clip;
 }
 
 img {
