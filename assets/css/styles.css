@@ -3089,3 +3089,113 @@ footer > p:last-child a:hover {
   outline-offset: 3px;
   border-radius: var(--radio);
 }
+
+/* ══════════════════════════════════════════════════════════════
+   SIMULACIÓN DE HOVER EN MÓVIL (<480px)
+   La clase .mv-hover la agrega app.js vía IntersectionObserver
+   cuando el elemento entra en pantalla, ya que en táctil no
+   existe :hover. Replica exactamente los mismos estilos.
+══════════════════════════════════════════════════════════════ */
+@media (max-width: 479px) {
+  /* Bento / destacados */
+  .bento-item.mv-hover {
+    border-color: var(--secundario-light);
+    box-shadow: var(--sombra-media);
+    transform: translateY(-2px);
+  }
+
+  .bento-item.mv-hover .bento-icono {
+    background: var(--azul-claro);
+    transform: scale(1.1) rotate(-5deg);
+  }
+
+  .bento-item.mv-hover .bento-tag {
+    background: var(--azul-claro);
+  }
+
+  .bento-item.destacado.mv-hover .bento-icono {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .bento-item.destacado.mv-hover .bento-tag {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  /* Servicios (fila con detalle) */
+  .servicio-fila.mv-hover {
+    background-color: rgba(102, 197, 231, 0.04);
+    border-bottom-color: var(--secundario);
+  }
+
+  .servicio-fila.mv-hover .servicio-titulo,
+  .servicio-fila.mv-hover .servicio-detalle {
+    transform: translateX(1rem);
+  }
+
+  .servicio-fila.mv-hover .servicio-titulo span::after {
+    width: 100%;
+  }
+
+  .servicio-fila.mv-hover .servicio-titulo h3 {
+    color: var(--primario);
+  }
+
+  .servicio-fila.mv-hover .servicio-detalle ul li::before {
+    transform: scaleX(1.3);
+    transform-origin: left;
+  }
+
+  /* Proceso (pasos numerados) */
+  #proceso li.mv-hover .proceso-nodo {
+    box-shadow:
+      0 0 0 1px rgba(102, 197, 231, 0.25),
+      0 10px 24px -6px rgba(49, 181, 230, 0.4);
+    transform: translateY(-2px);
+  }
+
+  #proceso li.mv-hover .proceso-icono svg {
+    transform: scale(1.1);
+  }
+
+  #proceso li.mv-hover .proceso-numero {
+    border-color: var(--secundario);
+    box-shadow: -5px 5px 25px 2px var(--secundario);
+  }
+
+  /* Credenciales (sobre nosotros) */
+  .credencial-item.mv-hover .credencial-icono {
+    color: var(--primario);
+    border-color: var(--primario);
+    box-shadow: var(--sombra-media);
+  }
+
+  .credencial-item.mv-hover .credencial-icono svg {
+    scale: 1.1;
+  }
+
+  .credencial-item.mv-hover .credencial-texto strong {
+    color: var(--primario);
+  }
+
+  /* Botón "¿Tienes más dudas?" en FAQ */
+  #faq .faq-lateral a.mv-hover {
+    color: var(--primario);
+    transform: translateX(4px);
+  }
+
+  #faq .faq-lateral a.mv-hover::after {
+    transform: scaleX(1);
+  }
+
+  /* Items de contacto */
+  #contacto .contacto-item.mv-hover {
+    background: var(--azul-opaco);
+    border-color: rgba(102, 197, 231, 0.5);
+    box-shadow: var(--sombra-fina);
+    translate: 6px;
+  }
+
+  .contacto-item.mv-hover .contacto-item__icono {
+    transform: scale(1.08);
+  }
+}

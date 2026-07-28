@@ -660,3 +660,37 @@ if (footer) {
 
   footerObserver.observe(footer);
 }
+
+// === 14. SIMULACIÓN DE HOVER EN MÓVIL (<480px) ===
+// En táctil no existe :hover, así que estos elementos activan su
+// versión "hover" solos al entrar en pantalla, agregando .mv-hover.
+if (window.matchMedia("(max-width: 479px)").matches) {
+  const selectoresHoverMovil = [
+    ".bento-item",
+    ".servicio-fila",
+    "#proceso li",
+    ".credencial-item",
+    "#faq .faq-lateral a",
+    "#contacto .contacto-item",
+  ];
+
+  const elementosHoverMovil = document.querySelectorAll(
+    selectoresHoverMovil.join(", "),
+  );
+
+  if (elementosHoverMovil.length > 0) {
+    const hoverMovilObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          entry.target.classList.toggle("mv-hover", entry.isIntersecting);
+        });
+      },
+      {
+        threshold: 0.5, // Activo mientras el elemento esté bien centrado/visible
+        rootMargin: "0px 0px -35% 0px",
+      },
+    );
+
+    elementosHoverMovil.forEach((el) => hoverMovilObserver.observe(el));
+  }
+}
