@@ -2362,7 +2362,14 @@ main h3 {
 ══════════════════════════════════════════════════════════════ */
 .contacto-grid {
   display: flex;
-  gap: 0;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .contacto-grid {
+    flex-direction: row;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -2373,6 +2380,10 @@ main h3 {
 
 .contacto-info {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
   min-width: 380px;
 
   opacity: 0;
@@ -2388,12 +2399,13 @@ main h3 {
 }
 
 .contacto-info h2 {
-  margin-bottom: 0.75rem;
+  margin-bottom: 0;
   color: var(--negro-suave);
 }
 
 .contacto-info > p {
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
+
   font-size: var(--font-m);
   line-height: 1.75;
   color: var(--gris-texto);
@@ -2403,8 +2415,6 @@ main h3 {
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
-
-  margin-bottom: 1.5rem;
 
   font-style: normal;
 }
@@ -2767,7 +2777,18 @@ footer.visible {
 
 .footer-section {
   display: flex;
-  margin-bottom: 2rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .footer-section {
+    flex-direction: row;
+    gap: 0rem;
+    margin-bottom: 2rem;
+  }
 }
 
 .footer-description {
@@ -2864,9 +2885,16 @@ footer nav ul li:hover .icon-linkedin {
 
   line-height: 1.6;
   font-size: 0.8rem;
+  text-align: center;
   color: rgba(255, 255, 255, 0.4);
 
   border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+@media (min-width: 768px) {
+  .footer-section > p {
+    text-align: left;
+  }
 }
 
 footer > p:last-child {
