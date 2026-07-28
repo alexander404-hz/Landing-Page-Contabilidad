@@ -324,7 +324,7 @@ header nav {
 header nav ul {
   display: flex;
   justify-content: center;
-  padding-block: 0.5rem;
+  padding: 0.5rem 0;
   gap: 0.25rem;
 
   background-color: var(--azul-suave);
