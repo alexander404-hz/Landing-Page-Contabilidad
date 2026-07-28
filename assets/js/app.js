@@ -173,8 +173,6 @@ if (seccionBento) {
 // === 5. ANIMACIÓN DE ENTRADA PARA SERVICIOS ===
 const filasServicios = document.querySelectorAll(".servicio-fila");
 
-console.log(filasServicios);
-
 if (filasServicios.length > 0) {
   const filaObserver = new IntersectionObserver(
     (entries) => {
