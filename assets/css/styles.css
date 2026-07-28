@@ -515,8 +515,20 @@ main {
 
 main > section {
   max-width: var(--ancho-max);
-  padding: clamp(3rem, 9vw, 5.5rem) var(--padding-x) 3rem;
+  padding: 4.25rem var(--padding-x) 3rem;
   margin: 0 auto;
+}
+
+@media (min-width: 480px) {
+  main > section {
+    padding-top: 4.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  main > section {
+    padding-top: clamp(3rem, 9vw, 5.5rem);
+  }
 }
 
 /* Alternancia de fondo entre secciones pares */
